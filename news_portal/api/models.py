@@ -21,13 +21,11 @@ class News(models.Model):
     content = models.TextField(blank=True, verbose_name='Контент')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Обновлено')
-    is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
     author = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE,
         verbose_name='Автор'
     )
-    views = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
