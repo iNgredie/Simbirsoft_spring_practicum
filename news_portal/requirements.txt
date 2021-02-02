@@ -4,3 +4,4 @@ psycopg2
 drf-yasg
 djoser
 djangorestframework-simplejwt
+django-mptt
