@@ -1,4 +1,5 @@
 from rest_framework import viewsets, generics, mixins
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from .models import News, CustomUser, CommentToNews
@@ -23,6 +24,7 @@ class CreateNewsViewSet(viewsets.ModelViewSet):
     """
     queryset = News.objects.all()
     serializer_class = NewsSerializer
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [IsAdminUser | ReadOnly]
 
 
@@ -36,8 +38,9 @@ class CreateCommentToNewsView(mixins.CreateModelMixin,
     """
     CRUD и вывод комментариев к новостям
     """
-    queryset = CommentToNews.objects.all()
+    queryset = CommentToNews.objects.filter(level__lte=5)
     serializer_class = CreateCommentToNewsSerializer
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [IsAuthenticated]
     permission_classes_by_action = {'list': [IsAuthenticated],
                                     'retrieve': [IsAuthenticated],
@@ -52,4 +55,5 @@ class ListCustomUsers(generics.UpdateAPIView):
     """
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [IsAdminUser]

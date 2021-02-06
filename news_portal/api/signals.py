@@ -47,11 +47,11 @@ def comment_create(sender, instance, *args, **kwargs):
     Сообщение пользователю на почту, если кто-то ответил на его комментарий.
     """
     if F(instance.children) + 1:
-        message = f'{instance.author} replied: {instance.text}'
+        message = f'{instance.author.username} replied: {instance.text}'
         send_mail(
             'From Admin',
             message,
             EMAIL_HOST_USER,
-            [instance.author],
+            [instance.parent.author.email],
             fail_silently=False,
         )
