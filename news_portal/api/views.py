@@ -49,7 +49,10 @@ class CreateCommentToNewsView(mixins.CreateModelMixin,
                                     'destroy': [IsAdminUser]}
 
 
-class ListCustomUsers(generics.UpdateAPIView):
+class ListRetrieveUpdateCustomUser(mixins.UpdateModelMixin,
+                                    mixins.ListModelMixin,
+                                    mixins.RetrieveModelMixin,
+                                    viewsets.GenericViewSet):
     """
     Вывод и Update пользователей
     """
