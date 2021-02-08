@@ -5,7 +5,7 @@ services:
     build: ./news_portal
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./app/:/usr/src/app/
+    - ./news_portal/:/usr/src/app/
     ports:
       - 8000:8000
     env_file:
@@ -16,10 +16,10 @@ services:
     image: postgres:12.0-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=passwordtest
-      - POSTGRES_DB=news_portal_db
+    env_file:
+      - ./.env.dev
+    ports:
+      - 5432:5432
 
 volumes:
   postgres_data:

@@ -20,7 +20,9 @@ class MixedPermission:
 
 class CreateNewsViewSet(viewsets.ModelViewSet):
     """
-    CRUD и вывод новостей
+    CRUD новостей для админа.
+    Получение списка новостей для авторизованных
+    и неавторизованных пользователей.
     """
     queryset = News.objects.all()
     serializer_class = NewsSerializer
@@ -36,7 +38,10 @@ class CreateCommentToNewsView(mixins.CreateModelMixin,
                               MixedPermission,
                               viewsets.GenericViewSet):
     """
-    CRUD и вывод комментариев к новостям
+    CRUD комментариев для админа.
+    Возможность оставить комментарий к новости для авторизованного
+    и не забаненного пользователя
+    Вывод комментариев, уровень вложенности которых меньше или ровно 5
     """
     queryset = CommentToNews.objects.filter(level__lte=5)
     serializer_class = CreateCommentToNewsSerializer
@@ -50,11 +55,11 @@ class CreateCommentToNewsView(mixins.CreateModelMixin,
 
 
 class ListRetrieveUpdateCustomUser(mixins.UpdateModelMixin,
-                                    mixins.ListModelMixin,
-                                    mixins.RetrieveModelMixin,
-                                    viewsets.GenericViewSet):
+                                   mixins.ListModelMixin,
+                                   mixins.RetrieveModelMixin,
+                                   viewsets.GenericViewSet):
     """
-    Вывод и Update пользователей
+    Вывод и Update пользователей только для админа
     """
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
