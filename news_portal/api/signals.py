@@ -1,9 +1,9 @@
+from config.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
 from django.db.models import F
-from django.db.models.signals import pre_save, post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 
-from config.settings import EMAIL_HOST_USER
 from .models import CommentToNews, CustomUser
 
 
@@ -16,8 +16,8 @@ def user_ban(sender, instance, *args, **kwargs):
     if instance in users:
         if instance.is_banned:
             send_mail(
-                'From Admin',
-                'You are banned',
+                "From Admin",
+                "You are banned",
                 EMAIL_HOST_USER,
                 [instance.email],
                 fail_silently=False,
@@ -33,8 +33,8 @@ def user_unban(sender, instance, *args, **kwargs):
     if instance in users:
         if not instance.is_banned:
             send_mail(
-                'From Admin',
-                'You are unbanned',
+                "From Admin",
+                "You are unbanned",
                 EMAIL_HOST_USER,
                 [instance.email],
                 fail_silently=False,
@@ -47,9 +47,9 @@ def comment_create(sender, instance, *args, **kwargs):
     Сообщение пользователю на почту, если кто-то ответил на его комментарий.
     """
     if F(instance.children) + 1:
-        message = f'{instance.author.username} replied: {instance.text}'
+        message = f"{instance.author.username} replied: {instance.text}"
         send_mail(
-            'From Admin',
+            "From Admin",
             message,
             EMAIL_HOST_USER,
             [instance.parent.author.email],
