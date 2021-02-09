@@ -35,8 +35,16 @@
     "uid": "MTE",
     "token": "ahr1ny-d6b4fc662e1bbf6f7d8f4dddacaf63fb"
 }
-```  
-- Создание JWT токена post запрос на ```http://localhost:8000/auth/jwt/create/```
+```
+
+- Получение токена: post запрос на  ```http://localhost:8000/auth/token/login/```
+```
+{
+    "email": "example@email.com",
+    "password": "yourpassword"
+}
+``` 
+- Создание JWT токена: post запрос на ```http://localhost:8000/auth/jwt/create/```
 ```
 {
     "email": "example@email.com",

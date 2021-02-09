@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
+from rest_framework.exceptions import ValidationError
 
 
 class CustomUser(AbstractUser):
@@ -37,6 +38,7 @@ class News(models.Model):
 
 class CommentToNews(MPTTModel):
     """Comment model"""
+    MAX_TREE_DEPTH = 5
     text = models.TextField(max_length=5000, verbose_name='Содержание')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     news = models.ForeignKey(
@@ -58,6 +60,10 @@ class CommentToNews(MPTTModel):
         null=True,
         related_name='children'
     )
+
+    def save(self, *args, **kwargs):
+        if self.parent.level > self.MAX_TREE_DEPTH:
+            raise ValidationError({'level': f"Comment can only be nested {self.MAX_TREE_DEPTH} levels deep"})
 
     def __str__(self):
         return self.text[:30]
