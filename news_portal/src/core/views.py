@@ -1,27 +1,10 @@
-from rest_framework import generics, mixins, viewsets
+from rest_framework import mixins, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
-from .models import CommentToNews, CustomUser, News
-from .permissions import IsAuthenticatedAndNotBanned, ReadOnly
-from .serializers import (
-    CreateCommentToNewsSerializer,
-    CustomUserSerializer,
-    NewsSerializer,
-)
-
-
-class MixedPermission:
-    """Миксин permissions для action"""
-
-    def get_permissions(self):
-        try:
-            return [
-                permission()
-                for permission in self.permission_classes_by_action[self.action]
-            ]
-        except KeyError:
-            return [permission() for permission in self.permission_classes]
+from .models import CommentToNews, News
+from .permissions import IsAuthenticatedAndNotBanned, MixedPermission, ReadOnly
+from .serializers import CreateCommentToNewsSerializer, NewsSerializer
 
 
 class CreateNewsViewSet(viewsets.ModelViewSet):
@@ -64,19 +47,3 @@ class CreateCommentToNewsView(
         "update": [IsAdminUser],
         "destroy": [IsAdminUser],
     }
-
-
-class ListRetrieveUpdateCustomUser(
-    mixins.UpdateModelMixin,
-    mixins.ListModelMixin,
-    mixins.RetrieveModelMixin,
-    viewsets.GenericViewSet,
-):
-    """
-    Вывод и Update пользователей только для админа
-    """
-
-    queryset = CustomUser.objects.all()
-    serializer_class = CustomUserSerializer
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = [IsAdminUser]

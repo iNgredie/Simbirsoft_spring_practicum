@@ -52,7 +52,8 @@ urlpatterns = [
     path("auth/", include("djoser.urls.jwt")),
     # admin url
     path("admin/", admin.site.urls),
-    # api urls
-    path("api/v1/", include("api.urls")),
+    # core urls
+    path("api/v1/", include("src.core.urls")),
+    path("api/v1/", include("src.users.urls")),
     path("api/v1/", include("rest_framework.urls")),
 ]

@@ -2,9 +2,8 @@ import getpass
 import sys
 
 from django.contrib.auth import get_user_model, models
-from django.contrib.auth.management.commands.createsuperuser import (
-    NotRunningInTTYException,
-)
+from django.contrib.auth.management.commands.createsuperuser import \
+    NotRunningInTTYException
 from django.core import exceptions
 from django.core.management import BaseCommand
 from django.core.management.base import CommandError

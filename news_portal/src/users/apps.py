@@ -1,8 +1,8 @@
 from django.apps import AppConfig
 
 
-class ApiConfig(AppConfig):
-    name = "api"
+class UsersConfig(AppConfig):
+    name = "src.users"
 
     def ready(self):
         from . import signals

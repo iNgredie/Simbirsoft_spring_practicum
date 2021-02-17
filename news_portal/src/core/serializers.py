@@ -62,13 +62,3 @@ class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
         fields = ("title", "content", "created_at", "updated_at", "author", "comments")
-
-
-class CustomUserSerializer(serializers.ModelSerializer):
-    """
-    Сериализация пользователей
-    """
-
-    class Meta:
-        model = CustomUser
-        fields = "__all__"

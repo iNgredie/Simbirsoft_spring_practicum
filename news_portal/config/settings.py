@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     "djoser",
     "rest_framework.authtoken",
     "mptt",
-    "api.apps.ApiConfig",
+    "src.core.apps.CoreConfig",
+    "src.users.apps.UsersConfig",
 ]
 
 MIDDLEWARE = [
@@ -130,7 +131,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-AUTH_USER_MODEL = "api.CustomUser"
+AUTH_USER_MODEL = "users.CustomUser"
 
 
 REST_FRAMEWORK = {
